@@ -1,0 +1,142 @@
+{
+  "name": "@logdna/env-config",
+  "version": "0.0.0",
+  "description": "Configuration package for reading environment variables",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap",
+    "lint": "eslint ./",
+    "pretest": "npm run lint"
+  },
+  "bin": {
+    "config-doc": "./bin/cmd.js"
+  },
+  "keywords": [
+    "env",
+    "env var",
+    "environemnt",
+    "config",
+    "validate",
+    "validator",
+    "validation",
+    "parser"
+  ],
+  "bugs": {
+    "url": "https://github.com/logdna/env-config-node/issues"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "url": "https://github.com/logdna/env-config-node"
+  },
+  "homepage": "https://github.com/logdna/env-config-node",
+  "author": "LogDNA, Inc.",
+  "license": "MIT",
+  "eslintConfig": {
+    "root": true,
+    "ignorePatterns": [
+      "node_modules/",
+      "coverage/"
+    ],
+    "extends": [
+      "logdna"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2019
+    },
+    "rules": {
+      "no-shadow": 0,
+      "no-magic-numbers": 0,
+      "no-new": 0
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "eslint": "^7.10.0",
+    "eslint-config-logdna": "^2.0.0",
+    "husky": "^4.3.0",
+    "tap": "^14.10.7"
+  },
+  "tap": {
+    "100": true,
+    "esm": false,
+    "ts": false,
+    "jsx": false,
+    "check-coverage": true,
+    "coverage-report": [
+      "text",
+      "text-summary",
+      "json",
+      "html"
+    ],
+    "reporter": "classic",
+    "nyc-arg": [
+      "--exclude=test/",
+      "--all"
+    ],
+    "files": [
+      "test/*.js"
+    ],
+    "output-file": ".tap-output"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "rules": {
+      "body-leading-blank": [
+        2,
+        "always"
+      ],
+      "body-max-line-length": [
+        2,
+        "always",
+        72
+      ],
+      "body-min-length": [
+        2,
+        "always",
+        20
+      ],
+      "subject-max-length": [
+        2,
+        "always",
+        72
+      ],
+      "scope-empty": [
+        2,
+        "always"
+      ],
+      "subject-full-stop": [
+        2,
+        "never",
+        "."
+      ],
+      "type-enum": [
+        2,
+        "always",
+        [
+          "feat",
+          "deps",
+          "fix",
+          "docs",
+          "package",
+          "style",
+          "refactor",
+          "test",
+          "revert",
+          "WIP"
+        ]
+      ],
+      "type-empty": [
+        2,
+        "never"
+      ]
+    }
+  }
+}

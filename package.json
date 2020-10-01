@@ -75,6 +75,7 @@
     "reporter": "classic",
     "nyc-arg": [
       "--exclude=test/",
+      "--exclude=tools",
       "--all"
     ],
     "files": [
@@ -84,7 +85,8 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "prepare-commit-msg": "tools/git-commit-template.js"
     }
   },
   "commitlint": {

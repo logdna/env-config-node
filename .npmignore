@@ -10,3 +10,4 @@ coverage
 .tap-output
 Jenkinsfile
 tools
+test

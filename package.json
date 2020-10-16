@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/logdna/env-config-node",
   "author": "LogDNA, Inc.",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "eslintConfig": {
     "root": true,
     "ignorePatterns": [

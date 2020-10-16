@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/logdna/env-config-node/badge.svg?branch=master)](https://coveralls.io/github/logdna/env-config-node?branch=master)
+
 # @logdna/env-config
 
 > Node.js Package to define, document, and assert environment variables

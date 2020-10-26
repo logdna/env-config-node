@@ -1,7 +1,8 @@
 library 'magic-butler-catalogue'
 
 def PROJECT_NAME = "env-config-node"
-def repo = "logdna/${PROJECT_NAME}"
+def REPO = "logdna/${PROJECT_NAME}"
+def TRIGGER_PATTERN = ".*@logdnabot.*"
 
 pipeline {
   agent none
@@ -11,7 +12,23 @@ pipeline {
     ansiColor 'xterm'
   }
 
+  triggers {
+    issueCommentTrigger(TRIGGER_PATTERN)
+  }
+
   stages {
+    stage('Validate PR Source') {
+      when {
+        expression { env.CHANGE_FORK }
+        not {
+          triggeredBy 'issueCommentCause'
+        }
+      }
+      steps {
+        error("A maintainer needs to approve this PR for CI by commenting")
+      }
+    }
+
     stage('Test Suite') {
       matrix {
         axes {
@@ -108,7 +125,7 @@ pipeline {
         versioner(
           token: "${GITHUB_PACKAGES_TOKEN}"
         , dry: true
-        , repo: repo
+        , repo: REPO
         )
       }
     }
@@ -142,7 +159,7 @@ pipeline {
         versioner(
           token: "${GITHUB_PACKAGES_TOKEN}"
         , dry: false
-        , repo: repo
+        , repo: REPO
         , NPM_PUBLISH_TOKEN: "${NPM_PUBLISH_TOKEN}"
         )
       }

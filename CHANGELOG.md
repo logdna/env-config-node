@@ -1,3 +1,7 @@
+# 2020-10-30, Version 1.0.3 (Stable)
+
+* [[39a8145cbb](https://github.com/logdna/env-config-node/commit/39a8145cbb)] - Add PR source validation to Jenkinsfile (Jacob Hull) [LOG-7715](https://logdna.atlassian.net/browse/LOG-7715)
+
 # 2020-10-16, Version 1.0.2 (Stable)
 
 * [[d718145081](https://github.com/logdna/env-config-node/commit/d718145081)] - feat: Add code coverage badge to README (Darin Spivey) [LOG-7634](https://logdna.atlassian.net/browse/LOG-7634)

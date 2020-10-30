@@ -1,6 +1,6 @@
 {
   "name": "@logdna/env-config",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Configuration package for reading environment variables",
   "main": "index.js",
   "scripts": {

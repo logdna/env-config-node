@@ -32,7 +32,24 @@
     "url": "https://github.com/logdna/env-config-node"
   },
   "homepage": "https://github.com/logdna/env-config-node",
-  "author": "LogDNA, Inc.",
+  "author": {
+    "name": "LogDNA, Inc.",
+    "email": "help@logdna.com"
+  },
+  "contributors": [
+    {
+      "name": "Darin Spivey",
+      "email": "darin.spivey@logdna.com"
+    },
+    {
+      "name": "Evan Lucas",
+      "email": "evanlucas@me.com"
+    },
+    {
+      "name": "Jacob Hull",
+      "email": "jacob@planethull.com"
+    }
+  ],
   "license": "SEE LICENSE IN LICENSE",
   "eslintConfig": {
     "root": true,

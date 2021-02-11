@@ -1,3 +1,7 @@
+# 2021-02-11, Version 1.0.4 (Stable)
+
+* [[464835d214](https://github.com/logdna/env-config-node/commit/464835d214)] - fix: Change branch to main and add contributors (Darin Spivey)
+
 # 2020-10-30, Version 1.0.3 (Stable)
 
 * [[39a8145cbb](https://github.com/logdna/env-config-node/commit/39a8145cbb)] - Add PR source validation to Jenkinsfile (Jacob Hull) [LOG-7715](https://logdna.atlassian.net/browse/LOG-7715)

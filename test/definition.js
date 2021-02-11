@@ -10,28 +10,28 @@ const {
 test('Definition', async (t) => {
   t.test('constructor', async (t) => {
     const bool = new Definition('boolean', 'bool-test')
-    t.equal(bool._required, false, 'required === false')
-    t.equal(bool._name, 'bool-test', 'name === bool-test')
-    t.equal(bool._env, 'BOOL_TEST', 'env === BOOL_TEST')
-    t.equal(bool._type, 'boolean', 'type === boolean')
+    t.strictEqual(bool._required, false, 'required === false')
+    t.strictEqual(bool._name, 'bool-test', 'name === bool-test')
+    t.strictEqual(bool._env, 'BOOL_TEST', 'env === BOOL_TEST')
+    t.strictEqual(bool._type, 'boolean', 'type === boolean')
 
     const num = new Definition('number', 'number-test')
-    t.equal(num._required, false, 'required === false')
-    t.equal(num._name, 'number-test', 'name === number-test')
-    t.equal(num._env, 'NUMBER_TEST', 'env === NUMBER_TEST')
-    t.equal(num._type, 'number', 'type === number')
+    t.strictEqual(num._required, false, 'required === false')
+    t.strictEqual(num._name, 'number-test', 'name === number-test')
+    t.strictEqual(num._env, 'NUMBER_TEST', 'env === NUMBER_TEST')
+    t.strictEqual(num._type, 'number', 'type === number')
 
     const string = new Definition('string', 'string-test')
-    t.equal(string._required, false, 'required === false')
-    t.equal(string._name, 'string-test', 'name === string-test')
-    t.equal(string._env, 'STRING_TEST', 'env === STRING_TEST')
-    t.equal(string._type, 'string', 'type === string')
+    t.strictEqual(string._required, false, 'required === false')
+    t.strictEqual(string._name, 'string-test', 'name === string-test')
+    t.strictEqual(string._env, 'STRING_TEST', 'env === STRING_TEST')
+    t.strictEqual(string._type, 'string', 'type === string')
 
     const re = new Definition('regex', 'regex-test')
-    t.equal(re._required, false, 'required === false')
-    t.equal(re._name, 'regex-test', 'name === regex-test')
-    t.equal(re._env, 'REGEX_TEST', 'env === REGEX_TEST')
-    t.equal(re._type, 'regex', 'type === regex')
+    t.strictEqual(re._required, false, 'required === false')
+    t.strictEqual(re._name, 'regex-test', 'name === regex-test')
+    t.strictEqual(re._env, 'REGEX_TEST', 'env === REGEX_TEST')
+    t.strictEqual(re._type, 'regex', 'type === regex')
 
     t.throws(() => {
       new Definition('biscuits', 'fake')
@@ -40,37 +40,37 @@ test('Definition', async (t) => {
 
   t.test('required()', async (t) => {
     const def = new Definition('string', 'required-test')
-    t.equal(def._required, false, 'required === false')
-    t.equal(def.required(), def, 'returns this')
-    t.equal(def._required, true, 'required === true')
+    t.strictEqual(def._required, false, 'required === false')
+    t.strictEqual(def.required(), def, 'returns this')
+    t.strictEqual(def._required, true, 'required === true')
   })
 
   t.test('desc()', async (t) => {
     const def = new Definition('string', 'desc-test')
-    t.equal(def._description, null, 'description === null')
-    t.equal(def.desc('Test'), def, 'returns this')
-    t.equal(def._description, 'Test', 'description === \'Test\'')
+    t.strictEqual(def._description, null, 'description === null')
+    t.strictEqual(def.desc('Test'), def, 'returns this')
+    t.strictEqual(def._description, 'Test', 'description === \'Test\'')
   })
 
   t.test('description()', async (t) => {
     const def = new Definition('string', 'description-test')
-    t.equal(def._description, null, 'description === null')
-    t.equal(def.description('Test'), def, 'returns this')
-    t.equal(def._description, 'Test', 'description === \'Test\'')
+    t.strictEqual(def._description, null, 'description === null')
+    t.strictEqual(def.description('Test'), def, 'returns this')
+    t.strictEqual(def._description, 'Test', 'description === \'Test\'')
   })
 
   t.test('default()', async (t) => {
     const def = new Definition('string', 'default-test')
-    t.equal(def._default, null, 'default === null')
-    t.equal(def.default('1234'), def, 'returns this')
-    t.equal(def._default, '1234', 'default === \'1234\'')
+    t.strictEqual(def._default, null, 'default === null')
+    t.strictEqual(def.default('1234'), def, 'returns this')
+    t.strictEqual(def._default, '1234', 'default === \'1234\'')
   })
 
   t.test('match()', async (t) => {
     const def = new Definition('regex', 'match-test')
-    t.equal(def._match, null, 'match === null')
-    t.equal(def.match('1234'), def, 'returns this')
-    t.equal(def._match, '1234', 'match === \'1234\'')
+    t.strictEqual(def._match, null, 'match === null')
+    t.strictEqual(def.match('1234'), def, 'returns this')
+    t.strictEqual(def._match, '1234', 'match === \'1234\'')
 
     t.throws(() => {
       const def = new Definition('string', 'match-test')
@@ -80,9 +80,9 @@ test('Definition', async (t) => {
 
   t.test('min()', async (t) => {
     const def = new Definition('number', 'min-test')
-    t.equal(def._min, null, 'min === null')
-    t.equal(def.min('1234'), def, 'returns this')
-    t.equal(def._min, '1234', 'min === \'1234\'')
+    t.strictEqual(def._min, null, 'min === null')
+    t.strictEqual(def.min('1234'), def, 'returns this')
+    t.strictEqual(def._min, '1234', 'min === \'1234\'')
 
     t.throws(() => {
       const def = new Definition('string', 'min-test')
@@ -92,9 +92,9 @@ test('Definition', async (t) => {
 
   t.test('max()', async (t) => {
     const def = new Definition('number', 'max-test')
-    t.equal(def._max, null, 'max === null')
-    t.equal(def.max('1234'), def, 'returns this')
-    t.equal(def._max, '1234', 'max === \'1234\'')
+    t.strictEqual(def._max, null, 'max === null')
+    t.strictEqual(def.max('1234'), def, 'returns this')
+    t.strictEqual(def._max, '1234', 'max === \'1234\'')
 
     t.throws(() => {
       const def = new Definition('string', 'max-test')
@@ -293,7 +293,7 @@ test('Definition', async (t) => {
             .required()
 
           def.validate()
-          t.equal(def._value, 25, 'value === 25')
+          t.strictEqual(def._value, 25, 'value === 25')
         }
 
         {
@@ -306,7 +306,7 @@ test('Definition', async (t) => {
             .required()
 
           def.validate()
-          t.equal(def._value, 25, 'value === 25')
+          t.strictEqual(def._value, 25, 'value === 25')
         }
       })
 

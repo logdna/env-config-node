@@ -1,6 +1,6 @@
 'use strict'
 
-const Config = require('../../')
+const Config = require('../../index.js')
 
 const input = [
   Config

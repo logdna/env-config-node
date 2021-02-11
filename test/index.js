@@ -26,11 +26,11 @@ test('Env', async (t) => {
     ])
 
     env.validateEnvVars()
-    t.equal(env.get('loglevel'), 'info')
-    t.equal(env.get('pretty-print'), false)
-    t.equal(env.get('thing-count'), 5)
-    t.equal(env.get('count'), 5)
-    t.equal(env.get('company'), 'LogDNA')
+    t.strictEqual(env.get('loglevel'), 'info')
+    t.strictEqual(env.get('pretty-print'), false)
+    t.strictEqual(env.get('thing-count'), 5)
+    t.strictEqual(env.get('count'), 5)
+    t.strictEqual(env.get('company'), 'LogDNA')
 
     t.deepEqual(env.toJSON(), {
       'loglevel': 'info'

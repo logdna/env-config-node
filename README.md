@@ -1,4 +1,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/logdna/env-config-node/badge.svg?branch=main)](https://coveralls.io/github/logdna/env-config-node?branch=main)
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 # @logdna/env-config
 
@@ -280,3 +283,23 @@ but the discovered value in the environment did not match the pattern.
 [`<TypeError>`]: https://mdn.io/TypeError
 [`<RangeError>`]: https://mdn.io/RangeError
 [`<Error>`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://evanlucas.com/"><img src="https://avatars.githubusercontent.com/u/677994?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Evan Lucas</b></sub></a><br /><a href="https://github.com/logdna/env-config-node/commits?author=evanlucas" title="Code">💻</a> <a href="https://github.com/logdna/env-config-node/commits?author=evanlucas" title="Documentation">📖</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

@@ -1,0 +1,25 @@
+{
+  "projectName": "env-config-node",
+  "projectOwner": "logdna",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "evanlucas",
+      "name": "Evan Lucas",
+      "avatar_url": "https://avatars.githubusercontent.com/u/677994?v=4",
+      "profile": "https://evanlucas.com/",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}

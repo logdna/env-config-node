@@ -6,7 +6,8 @@
   "scripts": {
     "test": "tap",
     "lint": "eslint ./",
-    "pretest": "npm run lint"
+    "pretest": "npm run lint",
+    "release": "semantic-release"
   },
   "bin": {
     "config-doc": "./bin/cmd.js"
@@ -28,8 +29,13 @@
   "publishConfig": {
     "access": "public"
   },
+  "release": {
+    "branches": ["main"],
+    "extends": "semantic-release-config-logdna"
+  },
   "repository": {
-    "url": "https://github.com/logdna/env-config-node"
+    "type": "git",
+    "url": "git+ssh://git@github.com/logdna/env-config-node.git"
   },
   "homepage": "https://github.com/logdna/env-config-node",
   "author": {
@@ -75,6 +81,8 @@
     "eslint": "^7.10.0",
     "eslint-config-logdna": "^2.0.0",
     "husky": "^4.3.0",
+    "semantic-release": "^17.3.8",
+    "semantic-release-config-logdna": "^1.1.0",
     "tap": "^14.10.7"
   },
   "tap": {
@@ -87,7 +95,8 @@
       "text",
       "text-summary",
       "json",
-      "html"
+      "html",
+      "json-summary"
     ],
     "reporter": "classic",
     "nyc-arg": [

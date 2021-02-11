@@ -30,7 +30,9 @@
     "access": "public"
   },
   "release": {
-    "branches": ["main"],
+    "branches": [
+      "main"
+    ],
     "extends": "semantic-release-config-logdna"
   },
   "repository": {
@@ -79,7 +81,7 @@
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "eslint": "^7.10.0",
-    "eslint-config-logdna": "^2.0.0",
+    "eslint-config-logdna": "^4.0.2",
     "husky": "^4.3.0",
     "semantic-release": "^17.3.8",
     "semantic-release-config-logdna": "^1.1.0",

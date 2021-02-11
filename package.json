@@ -3,6 +3,13 @@
   "version": "1.0.4",
   "description": "Configuration package for reading environment variables",
   "main": "index.js",
+  "files": [
+    "bin/**/*",
+    "lib/**/*",
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "tap",
     "lint": "eslint ./",

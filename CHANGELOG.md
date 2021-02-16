@@ -1,3 +1,21 @@
+## Changelog
+
+## [1.0.5](https://github.com/logdna/env-config-node/compare/v1.0.4...v1.0.5) (2021-02-16)
+
+
+### Bug Fixes
+
+* Replace .npmignore with `files` whitelist [b0f3e68](https://github.com/logdna/env-config-node/commit/b0f3e686f9da32fa52c0dc2c0a6fab0c15058387) - Darin Spivey
+
+
+### Miscellaneous
+
+* add @darinspivey as a contributor [4c79cd0](https://github.com/logdna/env-config-node/commit/4c79cd0a3a41679e8108c7cf193704b314ba44bb) - Darin Spivey
+* add @evanlucas as a contributor [9f923ab](https://github.com/logdna/env-config-node/commit/9f923abd77fd30eaa338ce81b37bd0267f9e2d4f) - Darin Spivey
+* add @jakedipity as a contributor [7d56f16](https://github.com/logdna/env-config-node/commit/7d56f1653782b6f079641cd7a9eade27a326a2ba) - Darin Spivey
+* eslint-config-logdna@4.0.2 [d73e31d](https://github.com/logdna/env-config-node/commit/d73e31d4d4478a259df6418eca07d27d338c798d) - Darin Spivey
+* Install and use semantic release [b93ddfc](https://github.com/logdna/env-config-node/commit/b93ddfc53f551537e37bb4ff7ee8549d4877e287) - Darin Spivey
+
 # 2021-02-11, Version 1.0.4 (Stable)
 
 * [[464835d214](https://github.com/logdna/env-config-node/commit/464835d214)] - fix: Change branch to main and add contributors (Darin Spivey)

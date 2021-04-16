@@ -23,6 +23,10 @@ test('Env', async (t) => {
     , Env.number('thing-count').default(5)
     , Env.regex('count').match(/\d/).default(5)
     , Env.string('company').default('LogDNA')
+    , Env.list('list-sep').type('boolean').separator(':').default('1:0')
+    , Env.list('list-num').type('number').default([2, 10])
+    , Env.list('list-str').type('string').default('one two ')
+    , Env.list('list-empty').type('string')
     ])
 
     env.validateEnvVars()
@@ -31,6 +35,10 @@ test('Env', async (t) => {
     t.strictEqual(env.get('thing-count'), 5)
     t.strictEqual(env.get('count'), 5)
     t.strictEqual(env.get('company'), 'LogDNA')
+    t.deepEqual(env.get('list-sep'), [true, false])
+    t.deepEqual(env.get('list-num'), [2, 10])
+    t.deepEqual(env.get('list-str'), ['one', 'two'])
+    t.deepEqual(env.get('list-empty'), null)
 
     t.deepEqual(env.toJSON(), {
       'loglevel': 'info'
@@ -38,6 +46,10 @@ test('Env', async (t) => {
     , 'thing-count': 5
     , 'count': 5
     , 'company': 'LogDNA'
+    , 'list-sep': [true, false]
+    , 'list-num': [2, 10]
+    , 'list-str': ['one', 'two']
+    , 'list-empty': null
     })
   })
 

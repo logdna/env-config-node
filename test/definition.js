@@ -33,6 +33,14 @@ test('Definition', async (t) => {
     t.strictEqual(re._env, 'REGEX_TEST', 'env === REGEX_TEST')
     t.strictEqual(re._type, 'regex', 'type === regex')
 
+    const list = new Definition('list', 'list-test')
+    t.strictEqual(list._required, false, 'required === false')
+    t.strictEqual(list._name, 'list-test', 'name === list-test')
+    t.strictEqual(list._env, 'LIST_TEST', 'env === LIST_TEST')
+    t.strictEqual(list._type, 'list', 'type === list')
+    t.match(list._list_separator, /\s+|,/, 'default list separator')
+
+
     t.throws(() => {
       new Definition('biscuits', 'fake')
     }, /Invalid type: "biscuits"/, 'Invalid type throws')
@@ -102,6 +110,27 @@ test('Definition', async (t) => {
     }, /\.max\(\) only valid for number/)
   })
 
+  t.test('type()', async (t) => {
+    const def = new Definition('list', 'list-test')
+    def.type('string')
+    t.strictEqual(def._list_type, 'string', 'expected list type string')
+
+    def.type('boolean')
+    t.strictEqual(def._list_type, 'boolean', 'expected list type boolean')
+
+    def.type('number')
+    t.strictEqual(def._list_type, 'number', 'expected list type number')
+
+    t.throws(() => {
+      def.type('regex')
+    }, 'Invalid List type: "regex"')
+
+    t.throws(() => {
+      const def = new Definition('number', 'a-number')
+      def.type('number')
+    }, '.type() only valid for list')
+  })
+
   t.test('toJSON()', async (t) => {
     t.test('string', async (t) => {
       const def = new Definition('string', 'string-test')
@@ -120,6 +149,8 @@ test('Definition', async (t) => {
       , 'required': true
       , 'min': null
       , 'max': null
+      , 'list_type': null
+      , 'separator': /\s+|,/
       })
     })
 
@@ -142,6 +173,8 @@ test('Definition', async (t) => {
       , 'required': true
       , 'min': 0
       , 'max': 100
+      , 'list_type': null
+      , 'separator': /\s+|,/
       })
     })
 
@@ -162,7 +195,55 @@ test('Definition', async (t) => {
       , 'required': true
       , 'min': null
       , 'max': null
+      , 'list_type': null
+      , 'separator': /\s+|,/
       })
+    })
+
+    t.test('list', async (t) => {
+      {
+        const def = new Definition('list', 'list-test')
+        def
+          .default(false)
+          .desc('description')
+          .type('boolean')
+
+        t.deepEqual(def.toJSON(), {
+          'name': 'list-test'
+        , 'env': 'LIST_TEST'
+        , 'default': false
+        , 'description': 'description'
+        , 'match': null
+        , 'type': 'list'
+        , 'required': false
+        , 'min': null
+        , 'max': null
+        , 'list_type': 'boolean'
+        , 'separator': /\s+|,/
+        })
+      }
+
+      {
+        const def = new Definition('list', 'list-test').separator(':')
+        def
+          .default(false)
+          .desc('description')
+          .type('boolean')
+
+        t.deepEqual(def.toJSON(), {
+          'name': 'list-test'
+        , 'env': 'LIST_TEST'
+        , 'default': false
+        , 'description': 'description'
+        , 'match': null
+        , 'type': 'list'
+        , 'required': false
+        , 'min': null
+        , 'max': null
+        , 'list_type': 'boolean'
+        , 'separator': ':'
+        })
+      }
     })
 
     t.test('regex', async (t) => {
@@ -184,6 +265,8 @@ test('Definition', async (t) => {
         , 'required': true
         , 'min': null
         , 'max': null
+        , 'list_type': null
+        , 'separator': /\s+|,/
         })
       }
 
@@ -205,6 +288,8 @@ test('Definition', async (t) => {
         , 'required': true
         , 'min': null
         , 'max': null
+        , 'list_type': null
+        , 'separator': /\s+|,/
         })
       }
     })
@@ -485,6 +570,69 @@ test('Definition', async (t) => {
         t.throws(() => {
           def.validate()
         }, /Missing required ENV VAR "LOGLEVEL2" of type "enum"/)
+      })
+    })
+
+    t.test('list', async (t) => {
+      t.test('parses and cleans messy values', async (t) => {
+        process.env.MESSY_VALUE = '   a,b  c, d  ,  '
+        const def = new Definition('list', 'messy-value').type('string').validate()
+        t.deepEqual(def._value, ['a', 'b', 'c', 'd'], 'expected array values')
+      })
+
+      t.test('required - throws when env var is missing', async (t) => {
+        const def = new Definition('list', 'unset').type('boolean').required()
+
+        t.throws(() => {
+          def.validate()
+        }, /Missing required ENV VAR "UNSET" of type "list"/)
+      })
+
+      t.test('required - throws when list is empty', async (t) => {
+        process.env.UNSET = ''
+        const def = new Definition('list', 'unset').required().type('number')
+
+        t.throws(() => {
+          def.validate()
+        }, /Missing required ENV VAR "UNSET" of type "list"/)
+      })
+
+      t.test('throws when env var has type mis match', async (t) => {
+        process.env.FOOBAR = '1,2 , three 4'
+        const def = new Definition('list', 'foobar')
+        def.type('number')
+
+        t.throws(() => {
+          def.validate()
+        }, {
+          name: 'ListError'
+        , message: 'Invalid value in List ENV VAR FOOBAR - '
+            + 'Value NaN is not of type number'
+        , type: 'number'
+        , actual: 'NaN'
+        , input: '1,2,NaN,4'
+        , original: '1,2 , three 4'
+        , env: 'FOOBAR'
+        })
+      })
+
+      t.test('throws when number is outside of range', async (t) => {
+        process.env.FOOBAR = '1 2 3'
+        const def = new Definition('list', 'foobar')
+        def.type('number').max(2)
+
+        t.throws(() => {
+          def.validate()
+        }, {
+          name: 'ListError'
+        , type: 'number'
+        , message: 'Invalid value in List ENV VAR FOOBAR - '
+            + '3 greater than 2 (1,2,3)'
+        , actual: '3'
+        , input: '1,2,3'
+        , original: '1 2 3'
+        , env: 'FOOBAR'
+        })
       })
     })
   })

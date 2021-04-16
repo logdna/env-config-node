@@ -35,6 +35,10 @@ module.exports = class Env extends Map {
     return new Definition('enum', name)
   }
 
+  static list(name) {
+    return new Definition('list', name)
+  }
+
   _loadRules() {
     for (const rule of this.validators) {
       this._addRule(rule)

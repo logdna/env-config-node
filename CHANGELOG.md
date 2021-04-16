@@ -1,5 +1,17 @@
 ## Changelog
 
+# [1.1.0](https://github.com/logdna/env-config-node/compare/v1.0.5...v1.1.0) (2021-04-16)
+
+
+### Features
+
+* expose a list type [19b5c0d](https://github.com/logdna/env-config-node/commit/19b5c0d544820c6e1054929dd526291040ca1644) - Eric Satterwhite
+
+
+### Miscellaneous
+
+* add @esatterwhite as a contributor [a8012ac](https://github.com/logdna/env-config-node/commit/a8012acbc62d6d7bd9186c3cd67f96025b506a3d) - Eric Satterwhite
+
 ## [1.0.5](https://github.com/logdna/env-config-node/compare/v1.0.4...v1.0.5) (2021-02-16)
 
 

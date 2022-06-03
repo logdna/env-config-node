@@ -28,7 +28,8 @@ const input = [
     .boolean('my-boolean')
     .default(false)
     .desc(
-      'process.env.MY_BOOLEAN truthy/falsey values are coerced into a boolean')
+      'process.env.MY_BOOLEAN truthy/falsey values are coerced into a boolean'
+    )
 , Config
     .string('this-has-no-description')
 ]

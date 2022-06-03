@@ -15,8 +15,8 @@ test('bin', async (t) => {
       await exec(bin)
       t.fail('exec should have rejected')
     } catch (err) {
-      t.strictEqual(err.code, 1, 'exited with code 1')
-      t.strictEqual(err.stderr, 'Usage: config-doc <path to config>\n', 'stderr')
+      t.equal(err.code, 1, 'exited with code 1')
+      t.equal(err.stderr, 'Usage: config-doc <path to config>\n', 'stderr')
     }
   })
 
@@ -30,6 +30,6 @@ test('bin', async (t) => {
       , MY_STRING: 'my-string-value'
       }
     })
-    t.strictEqual(stdout, output, 'stdout is correct')
+    t.equal(stdout, output, 'stdout is correct')
   })
 })

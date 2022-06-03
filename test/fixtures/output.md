@@ -47,7 +47,7 @@
 
 ### `MY_STRING`
 
-> The port for RSS
+> This is a fake required string which has no possible default
 
 | Config | Value |
 | --- | --- |
@@ -55,7 +55,7 @@
 | Environment Variable | `MY_STRING` |
 | Type | `string` |
 | Required | **yes** |
-| Default | `string default value` |
+| Default | `(none)` |
 
 ***
 

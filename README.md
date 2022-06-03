@@ -171,6 +171,7 @@ or do not satisfy the requirements, an error will be thrown.
   | [`<RegExpError>`](#regexperror)
   | [`<MissingEnvError>`](#missingenverror)
   | [`<EnumError>`](#enumerror)
+  | [`<RequiredDefaultMutexError>`](#requireddefaultmutexerror)
 
 ### Definition
 
@@ -178,7 +179,8 @@ This is a private prototype that offers the following methods:
 
 #### `Definition#required()`
 
-Specifies that this env var is required. By default, env vars are optional.
+Specifies that this env var is required to have a value (env vars are optional by default). This means
+that a value must be provided, and it **cannot** be the empty string, `''`.
 
 Returns `this` to allow chaining.
 
@@ -204,7 +206,10 @@ Returns `this` to allow chaining.
 * `def` [`<String>`][] or [`<Number>`][] or [`<Boolean>`][] The default
 
 This sets the default value of the rule. This does not set the actual env
-var though.
+var, but the value in the config's [`<Map>`][] will show the default value if the
+env var's value is empty.
+
+The default value will be applied for an unset var as well as a value of `''`.
 
 Returns `this` to allow chaining.
 
@@ -271,6 +276,18 @@ can be one of:
 
 This error is thrown if [`Definition#required`](#definitionrequired) was used,
 but no such environment variable or value was discovered.
+
+### `'RequiredDefaultMutexError'`
+
+* [`<Error>`][]
+  * `name` [`<String>`][] Static value of `RequiredDefaultMutexError`
+  * `type` [`<String>`][] Describes the definition: `string`, `number`,
+    `boolean`, `regex`, or `enum`
+
+This error is thrown if [`Definition#required`](#definitionrequired) **and**
+[`Definition#default`](#definitiondefault) are used together in a definition. A non-empty value must
+be provided for `required` variables, thus setting a default value for those
+is a dead code path. These two options are mutually exclusive.
 
 ### `'RegExpError'`
 

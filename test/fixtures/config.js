@@ -5,10 +5,8 @@ const Config = require('../../index.js')
 const input = [
   Config
     .string('my-string')
-    .default('string default value')
     .required()
-    .desc('This is a string value taken from process.env.MY_STRING')
-    .desc('The port for RSS')
+    .desc('This is a fake required string which has no possible default')
 , Config
     .number('fake-port')
     .default(3000)

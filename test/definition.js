@@ -10,36 +10,35 @@ const {
 test('Definition', async (t) => {
   t.test('constructor', async (t) => {
     const bool = new Definition('boolean', 'bool-test')
-    t.strictEqual(bool._required, false, 'required === false')
-    t.strictEqual(bool._name, 'bool-test', 'name === bool-test')
-    t.strictEqual(bool._env, 'BOOL_TEST', 'env === BOOL_TEST')
-    t.strictEqual(bool._type, 'boolean', 'type === boolean')
+    t.equal(bool._required, false, 'required === false')
+    t.equal(bool._name, 'bool-test', 'name === bool-test')
+    t.equal(bool._env, 'BOOL_TEST', 'env === BOOL_TEST')
+    t.equal(bool._type, 'boolean', 'type === boolean')
 
     const num = new Definition('number', 'number-test')
-    t.strictEqual(num._required, false, 'required === false')
-    t.strictEqual(num._name, 'number-test', 'name === number-test')
-    t.strictEqual(num._env, 'NUMBER_TEST', 'env === NUMBER_TEST')
-    t.strictEqual(num._type, 'number', 'type === number')
+    t.equal(num._required, false, 'required === false')
+    t.equal(num._name, 'number-test', 'name === number-test')
+    t.equal(num._env, 'NUMBER_TEST', 'env === NUMBER_TEST')
+    t.equal(num._type, 'number', 'type === number')
 
     const string = new Definition('string', 'string-test')
-    t.strictEqual(string._required, false, 'required === false')
-    t.strictEqual(string._name, 'string-test', 'name === string-test')
-    t.strictEqual(string._env, 'STRING_TEST', 'env === STRING_TEST')
-    t.strictEqual(string._type, 'string', 'type === string')
+    t.equal(string._required, false, 'required === false')
+    t.equal(string._name, 'string-test', 'name === string-test')
+    t.equal(string._env, 'STRING_TEST', 'env === STRING_TEST')
+    t.equal(string._type, 'string', 'type === string')
 
     const re = new Definition('regex', 'regex-test')
-    t.strictEqual(re._required, false, 'required === false')
-    t.strictEqual(re._name, 'regex-test', 'name === regex-test')
-    t.strictEqual(re._env, 'REGEX_TEST', 'env === REGEX_TEST')
-    t.strictEqual(re._type, 'regex', 'type === regex')
+    t.equal(re._required, false, 'required === false')
+    t.equal(re._name, 'regex-test', 'name === regex-test')
+    t.equal(re._env, 'REGEX_TEST', 'env === REGEX_TEST')
+    t.equal(re._type, 'regex', 'type === regex')
 
     const list = new Definition('list', 'list-test')
-    t.strictEqual(list._required, false, 'required === false')
-    t.strictEqual(list._name, 'list-test', 'name === list-test')
-    t.strictEqual(list._env, 'LIST_TEST', 'env === LIST_TEST')
-    t.strictEqual(list._type, 'list', 'type === list')
+    t.equal(list._required, false, 'required === false')
+    t.equal(list._name, 'list-test', 'name === list-test')
+    t.equal(list._env, 'LIST_TEST', 'env === LIST_TEST')
+    t.equal(list._type, 'list', 'type === list')
     t.match(list._list_separator, /\s+|,/, 'default list separator')
-
 
     t.throws(() => {
       new Definition('biscuits', 'fake')
@@ -48,9 +47,9 @@ test('Definition', async (t) => {
 
   t.test('required()', async (t) => {
     const def = new Definition('string', 'required-test')
-    t.strictEqual(def._required, false, 'required === false')
-    t.strictEqual(def.required(), def, 'returns this')
-    t.strictEqual(def._required, true, 'required === true')
+    t.equal(def._required, false, 'required === false')
+    t.equal(def.required(), def, 'returns this')
+    t.equal(def._required, true, 'required === true')
   })
 
   t.test('required() and default() mutex', async (t) => {
@@ -66,30 +65,30 @@ test('Definition', async (t) => {
 
   t.test('desc()', async (t) => {
     const def = new Definition('string', 'desc-test')
-    t.strictEqual(def._description, null, 'description === null')
-    t.strictEqual(def.desc('Test'), def, 'returns this')
-    t.strictEqual(def._description, 'Test', 'description === \'Test\'')
+    t.equal(def._description, null, 'description === null')
+    t.equal(def.desc('Test'), def, 'returns this')
+    t.equal(def._description, 'Test', 'description === \'Test\'')
   })
 
   t.test('description()', async (t) => {
     const def = new Definition('string', 'description-test')
-    t.strictEqual(def._description, null, 'description === null')
-    t.strictEqual(def.description('Test'), def, 'returns this')
-    t.strictEqual(def._description, 'Test', 'description === \'Test\'')
+    t.equal(def._description, null, 'description === null')
+    t.equal(def.description('Test'), def, 'returns this')
+    t.equal(def._description, 'Test', 'description === \'Test\'')
   })
 
   t.test('default()', async (t) => {
     const def = new Definition('string', 'default-test')
-    t.strictEqual(def._default, null, 'default === null')
-    t.strictEqual(def.default('1234'), def, 'returns this')
-    t.strictEqual(def._default, '1234', 'default === \'1234\'')
+    t.equal(def._default, null, 'default === null')
+    t.equal(def.default('1234'), def, 'returns this')
+    t.equal(def._default, '1234', 'default === \'1234\'')
   })
 
   t.test('match()', async (t) => {
     const def = new Definition('regex', 'match-test')
-    t.strictEqual(def._match, null, 'match === null')
-    t.strictEqual(def.match('1234'), def, 'returns this')
-    t.strictEqual(def._match, '1234', 'match === \'1234\'')
+    t.equal(def._match, null, 'match === null')
+    t.equal(def.match('1234'), def, 'returns this')
+    t.equal(def._match, '1234', 'match === \'1234\'')
 
     t.throws(() => {
       const def = new Definition('string', 'match-test')
@@ -99,9 +98,9 @@ test('Definition', async (t) => {
 
   t.test('min()', async (t) => {
     const def = new Definition('number', 'min-test')
-    t.strictEqual(def._min, null, 'min === null')
-    t.strictEqual(def.min('1234'), def, 'returns this')
-    t.strictEqual(def._min, '1234', 'min === \'1234\'')
+    t.equal(def._min, null, 'min === null')
+    t.equal(def.min('1234'), def, 'returns this')
+    t.equal(def._min, '1234', 'min === \'1234\'')
 
     t.throws(() => {
       const def = new Definition('string', 'min-test')
@@ -111,9 +110,9 @@ test('Definition', async (t) => {
 
   t.test('max()', async (t) => {
     const def = new Definition('number', 'max-test')
-    t.strictEqual(def._max, null, 'max === null')
-    t.strictEqual(def.max('1234'), def, 'returns this')
-    t.strictEqual(def._max, '1234', 'max === \'1234\'')
+    t.equal(def._max, null, 'max === null')
+    t.equal(def.max('1234'), def, 'returns this')
+    t.equal(def._max, '1234', 'max === \'1234\'')
 
     t.throws(() => {
       const def = new Definition('string', 'max-test')
@@ -124,13 +123,13 @@ test('Definition', async (t) => {
   t.test('type()', async (t) => {
     const def = new Definition('list', 'list-test')
     def.type('string')
-    t.strictEqual(def._list_type, 'string', 'expected list type string')
+    t.equal(def._list_type, 'string', 'expected list type string')
 
     def.type('boolean')
-    t.strictEqual(def._list_type, 'boolean', 'expected list type boolean')
+    t.equal(def._list_type, 'boolean', 'expected list type boolean')
 
     def.type('number')
-    t.strictEqual(def._list_type, 'number', 'expected list type number')
+    t.equal(def._list_type, 'number', 'expected list type number')
 
     t.throws(() => {
       def.type('regex')
@@ -150,7 +149,7 @@ test('Definition', async (t) => {
         .desc('description')
         .required()
 
-      t.deepEqual(def.toJSON(), {
+      t.same(def.toJSON(), {
         'name': 'string-test'
       , 'env': 'STRING_TEST'
       , 'default': 'biscuits'
@@ -174,7 +173,7 @@ test('Definition', async (t) => {
         .min(0)
         .max(100)
 
-      t.deepEqual(def.toJSON(), {
+      t.same(def.toJSON(), {
         'name': 'number-test'
       , 'env': 'NUMBER_TEST'
       , 'default': 20
@@ -196,7 +195,7 @@ test('Definition', async (t) => {
         .desc('description')
         .required()
 
-      t.deepEqual(def.toJSON(), {
+      t.same(def.toJSON(), {
         'name': 'boolean-test'
       , 'env': 'BOOLEAN_TEST'
       , 'default': false
@@ -219,7 +218,7 @@ test('Definition', async (t) => {
           .desc('description')
           .type('boolean')
 
-        t.deepEqual(def.toJSON(), {
+        t.same(def.toJSON(), {
           'name': 'list-test'
         , 'env': 'LIST_TEST'
         , 'default': false
@@ -241,7 +240,7 @@ test('Definition', async (t) => {
           .desc('description')
           .type('boolean')
 
-        t.deepEqual(def.toJSON(), {
+        t.same(def.toJSON(), {
           'name': 'list-test'
         , 'env': 'LIST_TEST'
         , 'default': false
@@ -266,7 +265,7 @@ test('Definition', async (t) => {
           .required()
           .match('info|verbose')
 
-        t.deepEqual(def.toJSON(), {
+        t.same(def.toJSON(), {
           'name': 'regex-test'
         , 'env': 'REGEX_TEST'
         , 'default': 'info'
@@ -289,7 +288,7 @@ test('Definition', async (t) => {
           .required()
           .match(/info|verbose/)
 
-        t.deepEqual(def.toJSON(), {
+        t.same(def.toJSON(), {
           'name': 'regex-test'
         , 'env': 'REGEX_TEST'
         , 'default': 'info'
@@ -339,7 +338,7 @@ test('Definition', async (t) => {
           .desc('description')
 
         def.validate()
-        t.strictEqual(def._value, 'biscuits', 'Default value applied for an empty string')
+        t.equal(def._value, 'biscuits', 'Default value applied for an empty string')
       })
 
       t.test('passes when the default value is not needed', async (t) => {
@@ -350,7 +349,7 @@ test('Definition', async (t) => {
           .desc('description')
 
         def.validate()
-        t.strictEqual(def._value, 'myvalue', 'The set env var value was used')
+        t.equal(def._value, 'myvalue', 'The set env var value was used')
       })
 
       t.test('passes when required and not empty', async (t) => {
@@ -363,7 +362,7 @@ test('Definition', async (t) => {
         t.doesNotThrow(() => {
           def.validate()
         }, 'validation passes')
-        t.strictEqual(def._value, 'STRING', 'The value was set correctly')
+        t.equal(def._value, 'STRING', 'The value was set correctly')
       })
     })
 
@@ -387,7 +386,7 @@ test('Definition', async (t) => {
           .desc('description')
 
         def.validate()
-        t.strictEqual(def._value, 25, 'Default value applied for an empty string')
+        t.equal(def._value, 25, 'Default value applied for an empty string')
       })
 
       t.test('passes when required and not empty', async (t) => {
@@ -400,7 +399,7 @@ test('Definition', async (t) => {
             .required()
 
           def.validate()
-          t.strictEqual(def._value, 25, 'value === 25')
+          t.equal(def._value, 25, 'value === 25')
         }
 
         {
@@ -412,7 +411,7 @@ test('Definition', async (t) => {
             .required()
 
           def.validate()
-          t.strictEqual(def._value, 25, 'value === 25')
+          t.equal(def._value, 25, 'value === 25')
         }
       })
 
@@ -528,7 +527,7 @@ test('Definition', async (t) => {
         const def = new Definition('regex', 'regex2-test')
         def.match(/\d/).default('123')
         def.validate()
-        t.strictEqual(def._value, '123', 'The default value was used')
+        t.equal(def._value, '123', 'The default value was used')
       })
 
       t.test('passes when env var is empty', async (t) => {
@@ -536,7 +535,7 @@ test('Definition', async (t) => {
         const def = new Definition('regex', 'regex-use-default')
         def.match(/\d/).default('123')
         def.validate()
-        t.strictEqual(def._value, '123', 'The default value was used')
+        t.equal(def._value, '123', 'The default value was used')
       })
 
       t.test('passes when required and matches with regex', async (t) => {
@@ -597,7 +596,7 @@ test('Definition', async (t) => {
         const def = new Definition('enum', 'loglevel')
         def.values(['info', 'error']).default('info')
         def.validate()
-        t.strictEqual(def._value, 'info', 'The default value was used')
+        t.equal(def._value, 'info', 'The default value was used')
       })
 
       t.test('Applies passing default when value is the empty string', async (t) => {
@@ -605,7 +604,7 @@ test('Definition', async (t) => {
         const def = new Definition('enum', 'loglevel')
         def.values(['info', 'error', 'silent']).default('silent')
         def.validate()
-        t.strictEqual(def._value, 'silent', 'The default value was applied')
+        t.equal(def._value, 'silent', 'The default value was applied')
       })
 
       t.test('throws when env var is missing', async (t) => {
@@ -622,7 +621,7 @@ test('Definition', async (t) => {
       t.test('parses and cleans messy values', async (t) => {
         process.env.MESSY_VALUE = '   a,b  c, d  ,  '
         const def = new Definition('list', 'messy-value').type('string').validate()
-        t.deepEqual(def._value, ['a', 'b', 'c', 'd'], 'expected array values')
+        t.same(def._value, ['a', 'b', 'c', 'd'], 'expected array values')
       })
 
       t.test('uses the default if the env var is the empty string', async (t) => {
@@ -633,7 +632,7 @@ test('Definition', async (t) => {
           .default([1, 2, 3])
 
         def.validate()
-        t.deepEqual(def._value, [1, 2, 3], 'The default array was used')
+        t.same(def._value, [1, 2, 3], 'The default array was used')
       })
 
       t.test('required - throws when env var is missing', async (t) => {

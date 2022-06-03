@@ -53,6 +53,17 @@ test('Definition', async (t) => {
     t.strictEqual(def._required, true, 'required === true')
   })
 
+  t.test('required() and default() mutex', async (t) => {
+    t.throws(() => {
+      const def = new Definition('string', 'mutex-string').required().default('nope')
+      def.validate()
+    }, {
+      name: 'RequiredDefaultMutexError'
+    , message: '".default()" and ".required()" are mutually exclusive for '
+        + 'ENV VAR "MUTEX_STRING"'
+    }, 'The expected error was thrown')
+  })
+
   t.test('desc()', async (t) => {
     const def = new Definition('string', 'desc-test')
     t.strictEqual(def._description, null, 'description === null')
@@ -297,10 +308,9 @@ test('Definition', async (t) => {
 
   t.test('validate()', async (t) => {
     t.test('string', async (t) => {
-      t.test('throws when env var is missing', async (t) => {
+      t.test('throws when required env var is missing', async (t) => {
         const def = new Definition('string', 'string-test')
         def
-          .default('biscuits')
           .desc('description')
           .required()
 
@@ -310,37 +320,50 @@ test('Definition', async (t) => {
       })
 
       t.test('throws when env var is empty and required', async (t) => {
-        process.env.STRING_TEST = ''
-        const def = new Definition('string', 'string-test')
+        process.env.REQUIRED_STRING = ''
+        const def = new Definition('string', 'required-string')
         def
-          .default('biscuits')
           .desc('description')
           .required()
 
         t.throws(() => {
           def.validate()
-        }, /Missing required ENV VAR "STRING_TEST" of type "string"/)
+        }, /Missing required ENV VAR "REQUIRED_STRING" of type "string"/)
       })
 
       t.test('passes when optional with default', async (t) => {
-        process.env.STRING_TEST2 = ''
-        const def = new Definition('string', 'string-test2')
+        process.env.OPTIONAL_STRING = ''
+        const def = new Definition('string', 'optional-string')
         def
           .default('biscuits')
           .desc('description')
 
         def.validate()
+        t.strictEqual(def._value, 'biscuits', 'Default value applied for an empty string')
+      })
+
+      t.test('passes when the default value is not needed', async (t) => {
+        process.env.OPTIONAL_STRING = 'myvalue'
+        const def = new Definition('string', 'optional-string')
+        def
+          .default('biscuits')
+          .desc('description')
+
+        def.validate()
+        t.strictEqual(def._value, 'myvalue', 'The set env var value was used')
       })
 
       t.test('passes when required and not empty', async (t) => {
-        process.env.STRING_TEST = 'STRING'
-        const def = new Definition('string', 'string-test')
+        process.env.REQUIRED_STRING = 'STRING'
+        const def = new Definition('string', 'required-string')
         def
-          .default('biscuits')
           .desc('description')
           .required()
 
-        def.validate()
+        t.doesNotThrow(() => {
+          def.validate()
+        }, 'validation passes')
+        t.strictEqual(def._value, 'STRING', 'The value was set correctly')
       })
     })
 
@@ -348,7 +371,6 @@ test('Definition', async (t) => {
       t.test('throws when env var is missing', async (t) => {
         const def = new Definition('number', 'number-test')
         def
-          .default(25)
           .desc('description')
           .required()
 
@@ -365,6 +387,7 @@ test('Definition', async (t) => {
           .desc('description')
 
         def.validate()
+        t.strictEqual(def._value, 25, 'Default value applied for an empty string')
       })
 
       t.test('passes when required and not empty', async (t) => {
@@ -372,7 +395,6 @@ test('Definition', async (t) => {
           process.env.NUMBER_TEST = '25'
           const def = new Definition('number', 'number-test')
           def
-            .default(20)
             .desc('description')
             .min(0)
             .required()
@@ -385,7 +407,6 @@ test('Definition', async (t) => {
           process.env.NUMBER_TEST = '25'
           const def = new Definition('number', 'number-test')
           def
-            .default(20)
             .desc('description')
             .max(100)
             .required()
@@ -503,10 +524,19 @@ test('Definition', async (t) => {
         }, 'RegExpError error was thrown')
       })
 
-      t.test('passes when empty and omitted', async (t) => {
+      t.test('passes when env var is omitted', async (t) => {
         const def = new Definition('regex', 'regex2-test')
         def.match(/\d/).default('123')
         def.validate()
+        t.strictEqual(def._value, '123', 'The default value was used')
+      })
+
+      t.test('passes when env var is empty', async (t) => {
+        process.env.REGEX_USE_DEFAULT = ''
+        const def = new Definition('regex', 'regex-use-default')
+        def.match(/\d/).default('123')
+        def.validate()
+        t.strictEqual(def._value, '123', 'The default value was used')
       })
 
       t.test('passes when required and matches with regex', async (t) => {
@@ -562,6 +592,21 @@ test('Definition', async (t) => {
         def.validate()
       })
 
+      t.test('uses default when env var is the empty string', async (t) => {
+        process.env.LOGLEVEL = ''
+        const def = new Definition('enum', 'loglevel')
+        def.values(['info', 'error']).default('info')
+        def.validate()
+        t.strictEqual(def._value, 'info', 'The default value was used')
+      })
+
+      t.test('Applies passing default when value is the empty string', async (t) => {
+        process.env.LOGLEVEL = ''
+        const def = new Definition('enum', 'loglevel')
+        def.values(['info', 'error', 'silent']).default('silent')
+        def.validate()
+        t.strictEqual(def._value, 'silent', 'The default value was applied')
+      })
 
       t.test('throws when env var is missing', async (t) => {
         const def = new Definition('enum', 'loglevel2')
@@ -580,6 +625,17 @@ test('Definition', async (t) => {
         t.deepEqual(def._value, ['a', 'b', 'c', 'd'], 'expected array values')
       })
 
+      t.test('uses the default if the env var is the empty string', async (t) => {
+        process.env.USE_DEFAULT = ''
+        const def = new Definition('list', 'use-default')
+        def
+          .type('number')
+          .default([1, 2, 3])
+
+        def.validate()
+        t.deepEqual(def._value, [1, 2, 3], 'The default array was used')
+      })
+
       t.test('required - throws when env var is missing', async (t) => {
         const def = new Definition('list', 'unset').type('boolean').required()
 
@@ -595,6 +651,15 @@ test('Definition', async (t) => {
         t.throws(() => {
           def.validate()
         }, /Missing required ENV VAR "UNSET" of type "list"/)
+      })
+
+      t.test('throws when string list has nullish values', async (t) => {
+        process.env.BAD_STRING_LIST = ' , , , '
+        const def = new Definition('list', 'bad-string-list').required().type('string')
+
+        t.throws(() => {
+          def.validate()
+        }, /Missing required ENV VAR "BAD_STRING_LIST" of type "list"/)
       })
 
       t.test('throws when env var has type mis match', async (t) => {

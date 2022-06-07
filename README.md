@@ -213,6 +213,22 @@ The default value will be applied for an unset var as well as a value of `''`.
 
 Returns `this` to allow chaining.
 
+#### `Definition#allowEmpty()`
+
+`allowEmpty()` tells the definition to accept an empty value in place of the provided non-empty `.default()`
+for cases where an empty value is valid and/or expected. Without this option, the default value will be used when
+an empty value is detected for a given type. A common use for this is to allow `''` as a value for a
+`.string()` definition.  In other words, `allowEmpty()` is a no-op without a `default()`.
+
+The empty values for the config types supported by this package are as follows:
+
+| Type | Final Value |
+| --- | --- |
+| string | `''` |
+| number | `0` |
+| boolean | `false` |
+| list | `[]` |
+
 #### `Definition#toJSON()`
 
 Returns a JSON representation of the configuration `Definition`.

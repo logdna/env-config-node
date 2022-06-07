@@ -52,6 +52,13 @@ test('Definition', async (t) => {
     t.equal(def._required, true, 'required === true')
   })
 
+  t.test('allowEmpty()', async (t) => {
+    const def = new Definition('string', 'can-be-empty')
+    t.equal(def._allow_empty, false, '_allow_empty === false')
+    t.equal(def.allowEmpty(), def, 'returns this')
+    t.equal(def._allow_empty, true, '_allow_empty === true')
+  })
+
   t.test('required() and default() mutex', async (t) => {
     t.throws(() => {
       const def = new Definition('string', 'mutex-string').required().default('nope')
@@ -161,6 +168,7 @@ test('Definition', async (t) => {
       , 'max': null
       , 'list_type': null
       , 'separator': /\s+|,/
+      , 'allow_empty': false
       })
     })
 
@@ -185,6 +193,7 @@ test('Definition', async (t) => {
       , 'max': 100
       , 'list_type': null
       , 'separator': /\s+|,/
+      , 'allow_empty': false
       })
     })
 
@@ -207,6 +216,30 @@ test('Definition', async (t) => {
       , 'max': null
       , 'list_type': null
       , 'separator': /\s+|,/
+      , 'allow_empty': false
+      })
+    })
+
+    t.test('allowEmpty', async (t) => {
+      const def = new Definition('string', 'string-empty')
+      def
+        .default('some default')
+        .desc('description')
+        .allowEmpty()
+
+      t.same(def.toJSON(), {
+        'name': 'string-empty'
+      , 'env': 'STRING_EMPTY'
+      , 'default': 'some default'
+      , 'description': 'description'
+      , 'match': null
+      , 'type': 'string'
+      , 'required': false
+      , 'min': null
+      , 'max': null
+      , 'list_type': null
+      , 'separator': /\s+|,/
+      , 'allow_empty': true
       })
     })
 
@@ -230,6 +263,7 @@ test('Definition', async (t) => {
         , 'max': null
         , 'list_type': 'boolean'
         , 'separator': /\s+|,/
+        , 'allow_empty': false
         })
       }
 
@@ -252,6 +286,7 @@ test('Definition', async (t) => {
         , 'max': null
         , 'list_type': 'boolean'
         , 'separator': ':'
+        , 'allow_empty': false
         })
       }
     })
@@ -277,6 +312,7 @@ test('Definition', async (t) => {
         , 'max': null
         , 'list_type': null
         , 'separator': /\s+|,/
+        , 'allow_empty': false
         })
       }
 
@@ -300,6 +336,7 @@ test('Definition', async (t) => {
         , 'max': null
         , 'list_type': null
         , 'separator': /\s+|,/
+        , 'allow_empty': false
         })
       }
     })
@@ -364,6 +401,16 @@ test('Definition', async (t) => {
         }, 'validation passes')
         t.equal(def._value, 'STRING', 'The value was set correctly')
       })
+
+      t.test('Does not apply default if allowEmpty()', async (t) => {
+        process.env.ALLOW_EMPTY = ''
+        const def = new Definition('string', 'allow-empty').default('nope').allowEmpty()
+
+        t.doesNotThrow(() => {
+          def.validate()
+        }, 'validation passes')
+        t.equal(def._value, '', 'The value was allowed to be empty')
+      })
     })
 
     t.test('number', async (t) => {
@@ -387,6 +434,16 @@ test('Definition', async (t) => {
 
         def.validate()
         t.equal(def._value, 25, 'Default value applied for an empty string')
+      })
+
+      t.test('Does not apply default if allowEmpty()', async (t) => {
+        process.env.ALLOW_EMPTY = ''
+        const def = new Definition('number', 'allow-empty').default(123).allowEmpty()
+
+        t.doesNotThrow(() => {
+          def.validate()
+        }, 'validation passes')
+        t.equal(def._value, 0, 'Empty value was casted')
       })
 
       t.test('passes when required and not empty', async (t) => {
@@ -452,6 +509,16 @@ test('Definition', async (t) => {
         const def = new Definition('boolean', 'optbool-test')
 
         def._populate()
+      })
+
+      t.test('Does not apply default if allowEmpty()', async (t) => {
+        process.env.ALLOW_EMPTY = ''
+        const def = new Definition('boolean', 'allow-empty').default(true).allowEmpty()
+
+        t.doesNotThrow(() => {
+          def.validate()
+        }, 'validation passes')
+        t.equal(def._value, false, 'Empty value was casted')
       })
 
       t.test('throws when env var is missing', async (t) => {
@@ -633,6 +700,18 @@ test('Definition', async (t) => {
 
         def.validate()
         t.same(def._value, [1, 2, 3], 'The default array was used')
+      })
+
+      t.test('allowEmpty() produces an empty list for empty string', async (t) => {
+        process.env.ALLOW_EMPTY = ''
+        const def = new Definition('list', 'allow-empty')
+        def
+          .type('number')
+          .default([1, 2, 3])
+          .allowEmpty()
+
+        def.validate()
+        t.same(def._value, [], 'An empty list was produced')
       })
 
       t.test('required - throws when env var is missing', async (t) => {

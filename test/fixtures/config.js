@@ -32,6 +32,14 @@ const input = [
     )
 , Config
     .string('this-has-no-description')
+, Config
+    .string('might-be-empty')
+    .default('you entered nothing')
+    .allowEmpty()
+    .desc(
+      'Assigns the default value if the env var is omitted. '
+        + 'Also allows the empty string as a value.'
+    )
 ]
 
 const config = new Config(input)

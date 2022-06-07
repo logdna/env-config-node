@@ -11,8 +11,24 @@
 | Type | `number` |
 | Required | no |
 | Default | `3000` |
+| Allows Empty Values | `false` |
 | Min | `1025` |
 | Max | `655359` |
+
+***
+
+### `MIGHT_BE_EMPTY`
+
+> Assigns the default value if the env var is omitted. Also allows the empty string as a value.
+
+| Config | Value |
+| --- | --- |
+| Name | `might-be-empty` |
+| Environment Variable | `MIGHT_BE_EMPTY` |
+| Type | `string` |
+| Required | no |
+| Default | `you entered nothing` |
+| Allows Empty Values | `true` |
 
 ***
 
@@ -27,6 +43,7 @@
 | Type | `boolean` |
 | Required | no |
 | Default | `false` |
+| Allows Empty Values | `false` |
 
 ***
 
@@ -41,6 +58,7 @@
 | Type | `enum` |
 | Required | no |
 | Default | `value3` |
+| Allows Empty Values | `false` |
 | Possible Values | `value1`<br>`value2`<br>`value3`<br> |
 
 ***
@@ -56,6 +74,7 @@
 | Type | `string` |
 | Required | **yes** |
 | Default | `(none)` |
+| Allows Empty Values | `false` |
 
 ***
 
@@ -70,6 +89,7 @@
 | Type | `regex` |
 | Required | no |
 | Default | `(none)` |
+| Allows Empty Values | `false` |
 | Match | `/there is a number here: \d+/i` |
 
 ***
@@ -83,6 +103,7 @@
 | Type | `string` |
 | Required | no |
 | Default | `(none)` |
+| Allows Empty Values | `false` |
 
 ***
 

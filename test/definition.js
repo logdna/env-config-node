@@ -553,8 +553,8 @@ test('Definition', async (t) => {
         t.test(`passes with valid false value: "${val}"`, async (t) => {
           process.env.BOOL_TEST = val
           const def = new Definition('boolean', 'bool-test')
-          def.required()
           def.validate()
+          t.equal(def._value, false, `${val} resulted with a "false" value`)
         })
       }
     })

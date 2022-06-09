@@ -1,5 +1,42 @@
 ## Changelog
 
+# [2.0.0](https://github.com/logdna/env-config-node/compare/v1.1.0...v2.0.0) (2022-06-09)
+
+
+### Bug Fixes
+
+* Correct boolean test to not use `required` [6f730aa](https://github.com/logdna/env-config-node/commit/6f730aaa78fb096485dd73f4894c650171973f67) - Darin Spivey
+
+
+### Code Refactoring
+
+* A value of empty string should apply the default value [1c93bba](https://github.com/logdna/env-config-node/commit/1c93bba14cd247fc73d094840bf378fc2b3baa91) - Darin Spivey
+
+
+### Features
+
+* allowEmpty() will allow '' to be a valid value [f46bb1d](https://github.com/logdna/env-config-node/commit/f46bb1d07b4141efd9516059fa592f015a50565d) - Darin Spivey
+
+
+### Miscellaneous
+
+* CI test with newer versions of node [bb2482e](https://github.com/logdna/env-config-node/commit/bb2482e06f7cf85306be26c812189aa053c13700) - Darin Spivey
+* eslint-config-logdna@6.1.0 [c48ec52](https://github.com/logdna/env-config-node/commit/c48ec5227c7a51d9c058f5d25f93b5ded2c2f322) - Darin Spivey
+* tap@16.2.0 [ec66875](https://github.com/logdna/env-config-node/commit/ec668757cdf05774c0af75e5f762b482fe04c257) - Darin Spivey
+
+
+### Style
+
+* Give custom errors their own files [59c3811](https://github.com/logdna/env-config-node/commit/59c381165987c98b74552f88111f5c34af1a0516) - Darin Spivey
+
+
+### **BREAKING CHANGES**
+
+* This change affects the way that default values
+are assigned, and the default value will now be used if the
+env var's value is ''. Also, using `.required()` and `.default()`
+in the same definition will now result in a mutex error.
+
 # [1.1.0](https://github.com/logdna/env-config-node/compare/v1.0.5...v1.1.0) (2021-04-16)
 
 

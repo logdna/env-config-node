@@ -1,5 +1,12 @@
 ## Changelog
 
+## [2.0.1](https://github.com/logdna/env-config-node/compare/v2.0.0...v2.0.1) (2022-06-09)
+
+
+### Bug Fixes
+
+* Do not throw errors until `validateEnvVars` is called [8afa07d](https://github.com/logdna/env-config-node/commit/8afa07d8f6c26db942288075fd2b54d0e18be365) - Darin Spivey
+
 # [2.0.0](https://github.com/logdna/env-config-node/compare/v1.1.0...v2.0.0) (2022-06-09)
 
 

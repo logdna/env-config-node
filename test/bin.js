@@ -24,12 +24,7 @@ test('bin', async (t) => {
     const fixture = path.join(__dirname, 'fixtures/config.js')
     const output_fp = path.join(__dirname, 'fixtures/output.md')
     const output = await readFile(output_fp, 'utf8')
-    const {stdout} = await exec(`${bin} ${fixture}`, {
-      env: {
-        ...process.env
-      , MY_STRING: 'my-string-value'
-      }
-    })
+    const {stdout} = await exec(`${bin} ${fixture}`)
     t.equal(stdout, output, 'stdout is correct')
   })
 })

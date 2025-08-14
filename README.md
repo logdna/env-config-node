@@ -29,9 +29,9 @@ The recommended way to structure applications with this package is as follows:
 'use strict'
 
 const Config = require('@logdna/env-config')
-const config = new Config([
-  Config.string('loglevel').default('info')
-, Config.number('port').default(3000)
+const config = Config.createConfig([
+  Config.string('loglevel').default('info'),
+  Config.number('port').default(3000),
 ])
 
 module.exports = config
@@ -54,12 +54,50 @@ const config = require('./config.js')
 // This validates that we have the necessary env vars.
 config.validateEnvVars()
 
-http.listen(config.get('port'), () => {
-  log.info('listen', config.get('port'))
+// When typing `config.get(<name>)` you should see auto-complete
+// for what's been configured in `config.js` and the variable
+// assigned should have its type inferred; in this case a `number`.
+const port = config.get('port')        // inferred as number
+// const port = config.port            // alternatively, direct property access
+
+http.listen(port, () => {
+  log.info('listen', port)
 })
 ```
 
-Under the hood, `Config` is a [`<Map>`][], so use it like one.
+Under the hood, `Config` is a [`<Map>`][], so, for the most part, you can use it like one.
+
+## Auto-complete
+
+This package ships a `index.d.ts` file. Modern editors (VS Code, WebStorm, etc...)
+automatically pick up these TypeScript declaration files and surface
+**IntelliSense in plain `.js` files**. You do **not** need to convert your project
+to TypeScript to enjoy auto-complete but you will need to use `createConfig` instead
+of using `new Config` constructor when no TypeScript tooling is present or used by
+your editor.
+
+### Direct Property Access
+
+At runtime each definition name is exposed as an enumerable getter on the `Config` instance. 
+This means in a Node REPL you can do the following:
+
+```
+> const Config = require('@logdna/env-config')
+> const cfg = new Config([ Config.string('name').default('app'), Config.number('port').default(3000) ])
+> cfg.validateEnvVars()
+> cfg. // press <TAB> shows: name, port, get, set, ...
+```
+
+The `.d.ts` declaration includes an index signature so modern editors, and TypeScript enabled
+editors/tooling know those dynamic properties exist.
+
+### Factory Helper `createConfig`
+
+`createConfig([...])` is a convenience wrapper returning a typed `Config` instance; identical to `new Config([...])`
+but can improve inference in some editor cases.
+
+## Generating Docs
+
 
 This package also provides a way to automatically generate documentation
 for the environment variables for a service.
@@ -86,6 +124,16 @@ You should also add a link to this document in the `README.md` of the service.
 * `input` [`<Array>`][] Array of objects that represent a single rule.
 
 Each `input` item should be a `Definition`. See "Static Methods" below.
+
+### `Config.createConfig(input)`
+
+* `input` [`<Array>`][] Array of objects that represent a single rule.
+
+Each `input` item should be a `Definition`. See "Static Methods" below.
+
+If you want auto-complete and type inference features, and are using an
+editor which doesn't support or isn't configured to use typescript type
+definitions, use this instead of `new Config(input)`.
 
 ### Static Methods
 ---
@@ -312,7 +360,7 @@ is a dead code path. These two options are mutually exclusive.
   * `expected` [`<RegExp>`][] The regular expression that is expected to
     match the discovered value
   * `actual` *(Any)* The value that was discovered in the environment
-  * `env` [`<String>`][] The name of the evironment variable that is supposed
+  * `env` [`<String>`][] The name of the environment variable that is supposed
     to hold the value (upper cased with underscores, e.g. `MY_VARIABLE`)
 
 This error is thrown if [`Config.regex()`](#configregexname) was used,
@@ -324,7 +372,7 @@ but the discovered value in the environment did not match the pattern.
   * `name` [`<String>`][] Static value of `EnumError`
   * `expected` [`<Array>`][] The list of acceptable values for the definition
   * `actual` *(Any)* The value that was discovered in the environment
-  * `env` [`<String>`][] The name of the evironment variable that is supposed
+  * `env` [`<String>`][] The name of the environment variable that is supposed
     to hold the value (upper cased with underscores, e.g. `MY_VARIABLE`)
 
 This error is thrown if [`Config.regex()`](#configregexname) was used,
@@ -339,7 +387,7 @@ but the discovered value in the environment did not match the pattern.
   * `input` [`<String>`][] The the value of the environment variable after it was parsed and sanitized
   * `original` [`<String>`][] The original value from the environment variable
   * `type` [`<String>`][] The defined value type of the list property
-  * `env` [`<String>`][] The name of the evironment variable that is supposed
+  * `env` [`<String>`][] The name of the environment variable that is supposed
     to hold the value (upper cased with underscores, e.g. `MY_VARIABLE`)
 
 This error is thrown if [`Config.list()`](#configlistname) was used,
@@ -366,10 +414,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://evanlucas.com/"><img src="https://avatars.githubusercontent.com/u/677994?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Evan Lucas</b></sub></a><br /><a href="https://github.com/logdna/env-config-node/commits?author=evanlucas" title="Code">💻</a> <a href="https://github.com/logdna/env-config-node/commits?author=evanlucas" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/darinspivey"><img src="https://avatars.githubusercontent.com/u/1874788?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Darin Spivey</b></sub></a><br /><a href="https://github.com/logdna/env-config-node/commits?author=darinspivey" title="Code">💻</a> <a href="https://github.com/logdna/env-config-node/commits?author=darinspivey" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/jakedipity"><img src="https://avatars.githubusercontent.com/u/29671917?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jacob Hull</b></sub></a><br /><a href="#maintenance-jakedipity" title="Maintenance">🚧</a></td>
-    <td align="center"><a href="http://codedependant.net/"><img src="https://avatars.githubusercontent.com/u/148561?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Eric Satterwhite</b></sub></a><br /><a href="https://github.com/logdna/env-config-node/commits?author=esatterwhite" title="Code">💻</a></td>
+    <td align="center"><a href="https://evanlucas.com/"><img src="https://avatars.githubusercontent.com/u/677994?v=4&s=100" width="100px;" alt=""/><br /><sub><b>Evan Lucas</b></sub></a><br /><a href="https://github.com/logdna/env-config-node/commits?author=evanlucas" title="Code">💻</a> <a href="https://github.com/logdna/env-config-node/commits?author=evanlucas" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/darinspivey"><img src="https://avatars.githubusercontent.com/u/1874788?v=4&s=100" width="100px;" alt=""/><br /><sub><b>Darin Spivey</b></sub></a><br /><a href="https://github.com/logdna/env-config-node/commits?author=darinspivey" title="Code">💻</a> <a href="https://github.com/logdna/env-config-node/commits?author=darinspivey" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/jakedipity"><img src="https://avatars.githubusercontent.com/u/29671917?v=4&s=100" width="100px;" alt=""/><br /><sub><b>Jacob Hull</b></sub></a><br /><a href="#maintenance-jakedipity" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="http://codedependant.net/"><img src="https://avatars.githubusercontent.com/u/148561?v=4&s=100" width="100px;" alt=""/><br /><sub><b>Eric Satterwhite</b></sub></a><br /><a href="https://github.com/logdna/env-config-node/commits?author=esatterwhite" title="Code">💻</a></td>
+    <td align="center"><a href="http://codedependant.net/"><img src="https://avatars.githubusercontent.com/u/4065262?v=4&s=100" width="100px;" alt=""/><br /><sub><b>Justin Gross</b></sub></a><br /><a href="https://github.com/logdna/env-config-node/commits?author=justintime4tea" title="Code">💻</a><a href="https://github.com/logdna/env-config-node/commits?author=justintime4tea" title="Documentation">📖</a></td>
   </tr>
 </table>
 

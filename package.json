@@ -3,10 +3,12 @@
   "version": "2.0.1",
   "description": "Configuration package for reading environment variables",
   "main": "index.js",
+  "types": "index.d.ts",
   "files": [
     "bin/**/*",
     "lib/**/*",
     "index.js",
+    "index.d.ts",
     "README.md",
     "LICENSE"
   ],
